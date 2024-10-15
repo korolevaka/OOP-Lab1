@@ -28,8 +28,10 @@ public class LR1 {
                     String[] words = line.split("(?<=\\P{Punct})(?=\\s)|(?<=\\s)(?=\\P{Punct})|(?<=\\s|^)\\s+|(?<=\\S)\\s+");
 
                     for (String word : words) {
-                        if (word.length() == length && startsWithConsonant(word)) {
-                            foundWords.add(word);
+                        String cleanedWord = word.replaceAll("^\\p{Punct}+", "").replaceAll("\\p{Punct}+$", "");
+
+                        if (cleanedWord.length() == length && startsWithConsonant(cleanedWord)) {
+                            foundWords.add(cleanedWord);
                         } else {
                             remainingLine.append(word);
                         }
@@ -50,7 +52,7 @@ public class LR1 {
                 }
 
             } catch (FileNotFoundException e) {
-                System.out.println("Ошибка при чтении файла: ");
+                System.out.println("Ошибка при чтении файла: " + e.getMessage());
             }
         }
     }
